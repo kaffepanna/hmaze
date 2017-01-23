@@ -1,0 +1,22 @@
+name:                hmaze
+version:             0.1.0.0
+license:             MIT
+license-file:        LICENSE
+author:              Patrik Pettersson
+maintainer:          pettersson.pa@gmail.com
+category:            Game
+build-type:          Simple
+extra-source-files:  ChangeLog.md
+cabal-version:       >=1.10
+
+executable hmaze
+  main-is:             Main.hs
+  -- other-extensions:    
+  build-depends:       base >=4.9 && <4.10
+  build-depends:       array
+  build-depends:       mtl
+  build-depends:       text
+  build-depends:       data-lens, data-lens-template
+  build-depends:       random
+  -- hs-source-dirs:      
+  default-language:    Haskell2010
