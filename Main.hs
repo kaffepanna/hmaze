@@ -9,6 +9,7 @@ import Data.Lens.Template (nameMakeLens)
 import Data.Text (unpack, pack, chunksOf, intercalate)
 import Data.Array (Array, listArray, elems, bounds, indices, (//), (!))
 import System.Random (Random, newStdGen, randoms)
+import System.Environment (getArgs)
 
 data Tile = Void | Corridor | Room deriving Eq
 
@@ -37,9 +38,6 @@ showGrid g = unpack it
         st = chunksOf w ft
         it = intercalate (pack "\n") st
         (_, (_,w)) = bounds g
-
-initgrid :: (Int,Int) -> Grid
-initgrid (w,h) = listArray ((1,1), (w,h)) [ Void | _ <- [1..] ]
 
 getdirs :: StateM [Dir]
 getdirs = do
@@ -72,9 +70,9 @@ step current = do
   cells <- fmap (fmap (translate current)) getdirs
   forM_ cells $ \c -> valid c >>= flip when (carve c >> step (last c))
 
+(width, height, startx, starty) = (65, 11, 2,2)
+initial = listArray ((1,1),(height,width)) [Void | _ <- [1..]]
+
 main :: IO ()
-main = do
-  let initalGrid = initgrid (61, 143)
-      start = (2,2)
-  gen <- newStdGen
-  putStrLn . showGrid . grid . execState (carve [start] >> step start) $ States initalGrid (randoms gen :: [Int])
+main = newStdGen >>= putStrLn . showGrid . grid . execState (carve [(startx, starty)] >> step (startx,starty)) . States initial . randoms
+
