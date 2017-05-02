@@ -9,14 +9,23 @@ build-type:          Simple
 extra-source-files:  ChangeLog.md
 cabal-version:       >=1.10
 
-executable hmaze
+library
+  hs-source-dirs:      src
+  exposed-modules:     HMaze,HMaze.Random
+  build-depends:       base >= 4.9 && < 4.10
+  build-depends:       random
+                     , mtl
+                     , data-lens
+                     , data-lens-template
+                     , array
+  default-language:    Haskell2010
+
+executable hmaze-draw
   main-is:             Main.hs
   -- other-extensions:    
   build-depends:       base >=4.9 && <4.10
-  build-depends:       array
-  build-depends:       mtl
   build-depends:       text
-  build-depends:       data-lens, data-lens-template
-  build-depends:       random
-  -- hs-source-dirs:      
+                     , hmaze
+                     , array
+  hs-source-dirs:      app
   default-language:    Haskell2010
